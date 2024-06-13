@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from birthday.crud.base import CRUDBase
@@ -25,6 +26,19 @@ class CRUDUserCongratulations(CRUDBase):
         await session.commit()
         await session.refresh(db_obj)
         return db_obj
+
+    async def get_all_congratulations_user(
+        self,
+        user_id: int,
+        session: AsyncSession,
+    ) -> list[UserCongratulations]:
+        """Показать все мои поздравления."""
+        all_congratulations_user = await session.execute(
+            select(UserCongratulations).where(
+                UserCongratulations.congratulated_id == user_id,
+            )
+        )
+        return all_congratulations_user.scalars().all()
 
 
 user_congratulations_crud = CRUDUserCongratulations(UserCongratulations)

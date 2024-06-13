@@ -5,7 +5,8 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from birthday.core import current_superuser, current_user, get_async_sessino
+from birthday.core import (current_superuser,
+                           current_user, get_async_sessino)
 from birthday.core.user import auth_backend, fastapi_users
 from birthday.schemas.user import (
     UserCreate, UserRead, UserUpdate
@@ -15,6 +16,7 @@ from birthday.core import settings
 from birthday.crud import user_subscriptions_crud
 
 router = APIRouter()
+
 
 router.include_router(
     fastapi_users.get_auth_router(auth_backend),
@@ -92,5 +94,5 @@ def delete_user(id: str):
     """Не используйте удаление, деактивируйте пользователей."""
     raise HTTPException(
         status_code=HTTPStatus.METHOD_NOT_ALLOWED,
-        detail="Удаление пользователей запрещено!"
+        detail='Удаление пользователей запрещено!'
     )

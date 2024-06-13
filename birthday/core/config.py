@@ -35,7 +35,6 @@ class Settings(BaseSettings):
         if range_of_days is None:
             range_of_days = settings.birthday_warning
         current_time_plus_period = current_data + td(days=range_of_days)
-
         if current_data <= desired_date <= current_time_plus_period:
             return True
         return False

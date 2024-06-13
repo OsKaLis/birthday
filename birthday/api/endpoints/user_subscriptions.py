@@ -1,12 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from birthday.core import (
-    get_async_sessino, current_user
-)
-from birthday.api.validators import (
-    check_user_exists,
-)
+from birthday.core import get_async_sessino, current_user
+from birthday.api.validators import check_user_exists
 from birthday.models.user import User
 from birthday.crud import user_subscriptions_crud
 from birthday.schemas.user_subscriptions import (

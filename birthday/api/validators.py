@@ -21,6 +21,6 @@ async def check_user_exists(
     if obj_user is None:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
-            detail='Юзер не найдена!'
+            detail='Пользователь не найдена!'
         )
     return obj_user

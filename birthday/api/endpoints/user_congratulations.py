@@ -1,19 +1,31 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from birthday.core import (
-    get_async_sessino, current_user
-)
-from birthday.api.validators import (
-    check_user_exists,
-)
+from birthday.core import get_async_sessino, current_user
+from birthday.api.validators import check_user_exists
 from birthday.models.user import User
 from birthday.crud import user_congratulations_crud
 from birthday.schemas.user_congratulations import (
-    UserCongratulationsCreate,
+    UserCongratulationsCreate, UserCongratulationssShow
 )
 
 router = APIRouter()
+
+
+@router.get(
+    '/',
+    response_model=list[UserCongratulationssShow],
+    dependencies=[Depends(current_user)],
+    tags=['Просмотреть мои поздравиления.']
+)
+async def get_congratulations_all_my(
+    user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_sessino),
+):
+    """Показать последние мои поздравления."""
+    return await user_congratulations_crud.get_all_congratulations_user(
+        user.id, session
+    )
 
 
 @router.post(
@@ -33,5 +45,3 @@ async def create_congratulations_user(
     return await user_congratulations_crud.create(
         author_id, obj_user, text_greeting, session
     )
-
-# 4) Просмотр кто меня поздравил
