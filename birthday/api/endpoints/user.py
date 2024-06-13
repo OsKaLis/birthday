@@ -77,7 +77,6 @@ async def get_сongratulations_soon_user(
             year=settings.current_time().year
         )
         if settings.the_birthday_is_coming_soon(user_obj.birthdate, days):
-            print(f'{user_obj.id} - {user_obj.birthdate.day}')
             satisfying_birthday.append(user_obj.id)
     soon_сongratulations_user = await session.execute(
         select(User).filter(User.id.in_(satisfying_birthday))

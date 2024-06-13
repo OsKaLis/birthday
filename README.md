@@ -24,7 +24,7 @@
 > [!IMPORTANT]
 > * 1 (Клонируем проект):git clone git@github.com:OsKaLis/birthday.git
 > * 2 (Переходим в директорию проекта):cd birthday/
-> * 3 (Запускаем виртуальное окружение из папки "birthday") :poetry shell
+> * 3 (Запускаем виртуальное окружение из папки "birthday"):poetry shell
 > * 4 (Устанавливаем установка зависимости для окружения):poetry install
 > * 5 (Создаём фаил '.env')
 >   ```
@@ -42,7 +42,9 @@
 >   FIRST_SUPERUSER_PASSWORD=admiral
 >   BIRTHDAY_WARNING=7
 >   ```
-> * 6 (Запускаем) :uvicorn birthday.main:app --reload
+> * 6 (Создать труктуру базы):alembic revision --autogenerate -m "start"
+> * 7 (Сохранить структуру базы):alembic upgrade head
+> * 8 (Запускаем):uvicorn birthday.main:app --reload
 
 ## Планы по доработке:
 * [1] - Дополнить работой фротендом (Бот тегергаама, Django)
