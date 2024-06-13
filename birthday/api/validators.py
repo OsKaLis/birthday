@@ -4,8 +4,8 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from birthday.crud.user_subscriptions import user_subscriptions_crud
-from birthday.models import UserSubscriptions, User
+# from birthday.crud.user_subscriptions import user_subscriptions_crud
+from birthday.models import User
 
 
 async def check_user_exists(

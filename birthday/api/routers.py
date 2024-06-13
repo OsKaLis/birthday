@@ -8,6 +8,6 @@ main_router = APIRouter()
 main_router.include_router(
     user_subscriptions_router,
     prefix='/subscription',
-    tags=['Подписаться']
+    tags=['Работа с подписками']
 )
 main_router.include_router(user_router)
