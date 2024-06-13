@@ -21,6 +21,7 @@ router = APIRouter()
     '/my',
     response_model=list[UserRead],
     dependencies=[Depends(current_user)],
+    tags=['Просмотреть мои подписки.']
 )
 async def get_subscriptions_user_all(
     user: User = Depends(current_user),
@@ -36,6 +37,7 @@ async def get_subscriptions_user_all(
     '/{user_id}',
     response_model=UserSubscriptionsBaseShow,
     dependencies=[Depends(current_user)],
+    tags=['Подписаться или отписаться на пользователя.']
 )
 async def get_subscriptions_user(
     user_id: int,

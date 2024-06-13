@@ -1,3 +1,4 @@
+from typing import Optional
 from http import HTTPStatus
 
 from fastapi import APIRouter, HTTPException, Depends
@@ -10,6 +11,8 @@ from birthday.schemas.user import (
     UserCreate, UserRead, UserUpdate
 )
 from birthday.models import User
+from birthday.core import settings
+from birthday.crud import user_subscriptions_crud
 
 router = APIRouter()
 
@@ -37,7 +40,7 @@ router.include_router(
     dependencies=[Depends(current_user)],
     response_model_exclude={
         'is_active', 'is_superuser', 'is_verified', 'patrony'},
-    tags=['Всё что нужно для поздравления.'],
+    tags=['Поиск пользователя.'],
 )
 async def get_all_user(
     session: AsyncSession = Depends(get_async_sessino),
@@ -48,13 +51,36 @@ async def get_all_user(
     )
     return all_user.scalars().all()
 
-# 5) Поиск пользователя
 
-# 1) эндпоит о ближайших днях рождениях
-
-# 3) отправить поздравление пользователю
-
-# 4) Просмотр кто меня поздравил
+@router.get(
+    '/users/сongratulations/soon',
+    response_model=list[UserRead],
+    dependencies=[Depends(current_user)],
+    response_model_exclude={
+        'is_active', 'is_superuser', 'is_verified', 'patrony'},
+    tags=['Узнать когда у пользователя День рождения.'],
+)
+async def get_сongratulations_soon_user(
+    user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_sessino),
+    days: Optional[int] = None,
+) -> list[UserRead]:
+    """Узнать укого скоро день рождения."""
+    my_pod_uz = await user_subscriptions_crud.get_all_subscriptions_user(
+        user.id, session
+    )
+    satisfying_birthday: list = []
+    for user_obj in my_pod_uz:
+        user_obj.birthdate = user_obj.birthdate.replace(
+            year=settings.current_time().year
+        )
+        if settings.the_birthday_is_coming_soon(user_obj.birthdate, days):
+            print(f'{user_obj.id} - {user_obj.birthdate.day}')
+            satisfying_birthday.append(user_obj.id)
+    soon_сongratulations_user = await session.execute(
+        select(User).filter(User.id.in_(satisfying_birthday))
+    )
+    return soon_сongratulations_user.scalars().all()
 
 
 @router.delete(

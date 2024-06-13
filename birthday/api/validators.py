@@ -4,7 +4,6 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-# from birthday.crud.user_subscriptions import user_subscriptions_crud
 from birthday.models import User
 
 
