@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "birthday"
+version = "0.1.0"
+description = ""
+authors = ["Юра Юшко <oskaLis@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "0.78.0"
+uvicorn = {extras = ["standard"], version = "0.17.6"}
+flake8 = "^7.0.0"
+aiosqlite = "0.17.0"
+sqlalchemy = "1.4.36"
+alembic = "1.7.7"
+fastapi-users = {extras = ["sqlalchemy"], version = "10.0.6"}
+fastapi-users-db-sqlalchemy = "^4.0.0"
+setuptools = "^70.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
