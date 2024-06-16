@@ -18,24 +18,6 @@ from birthday.crud import user_subscriptions_crud
 router = APIRouter()
 
 
-router.include_router(
-    fastapi_users.get_auth_router(auth_backend),
-    prefix='/auth/jwt',
-    tags=['Авторизация и регистрация'],
-)
-router.include_router(
-    fastapi_users.get_register_router(UserRead, UserCreate),
-    prefix='/auth',
-    tags=['Авторизация и регистрация'],
-)
-router.include_router(
-    fastapi_users.get_users_router(UserRead, UserUpdate),
-    prefix='/users',
-    tags=['Работа с Пользователями'],
-    dependencies=[Depends(current_superuser)],
-)
-
-
 @router.get(
     '/users/all',
     response_model=list[UserRead],
@@ -52,6 +34,24 @@ async def get_all_user(
         select(User)
     )
     return all_user.scalars().all()
+
+
+router.include_router(
+    fastapi_users.get_auth_router(auth_backend),
+    prefix='/auth/jwt',
+    tags=['Авторизация и регистрация'],
+)
+router.include_router(
+    fastapi_users.get_register_router(UserRead, UserCreate),
+    prefix='/auth',
+    tags=['Авторизация и регистрация'],
+)
+router.include_router(
+    fastapi_users.get_users_router(UserRead, UserUpdate),
+    prefix='/users',
+    tags=['Работа с Пользователями'],
+    dependencies=[Depends(current_superuser)],
+)
 
 
 @router.get(
